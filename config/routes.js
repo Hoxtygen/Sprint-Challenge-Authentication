@@ -1,4 +1,3 @@
-const express = require('express');
 const axios = require('axios');
 const Users = require('../models/userModel.js');
 const {
@@ -8,6 +7,7 @@ const {
 
 async function register(req, res) {
   // implement user registration
+  // eslint-disable-next-line prefer-const
   let { username, password } = req.body;
   password = encryptPassword(password);
   const newUserData = {
@@ -30,7 +30,7 @@ async function register(req, res) {
     }
     return res.status(400).json({
       errorMessage: 'Bad request',
-    })
+    });
   } catch (error) {
     return res.status(500).json({
       error,
@@ -68,7 +68,7 @@ async function login(req, res) {
 async function getAllUsers(req, res) {
   try {
     const allUsers = await Users.find();
-    return res.status(200).json(allUsers);    
+    return res.status(200).json(allUsers);
   } catch (error) {
     return res.status(500).json({
       errorMessage: error,
@@ -97,5 +97,3 @@ module.exports = (server) => {
   server.post('/api/login', login);
   server.get('/api/jokes', authenticate, getJokes);
 };
-
-

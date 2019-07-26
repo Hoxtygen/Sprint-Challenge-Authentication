@@ -18,6 +18,6 @@ server.get('/', (req, res) => {
   });
 });
 
- configureRoutes(server);
+configureRoutes(server);
 
 module.exports = server;

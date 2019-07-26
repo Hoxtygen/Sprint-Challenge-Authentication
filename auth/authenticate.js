@@ -4,8 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const jwtKey = process.env.JWT_SECRET ||
-  'add a .env file to root of project with the JWT_SECRET variable';
+const jwtKey = process.env.JWT_SECRET || 'add a .env file to root of project with the JWT_SECRET variable';
 
 // quickly see what this file exports
 
@@ -13,22 +12,22 @@ const jwtKey = process.env.JWT_SECRET ||
 // implementation details
 function authenticate(req, res, next) {
   const token = req.headers.authorization;
-    if (!token) {
-      res.status(401).json({
-        message: 'Access denied, you must be logged in to access this resource',
-      });
-    } else {
-      jwt.verify(token, jwtKey, (err, decodedToken) => {
-        if (err) {
-          res.status(401).json({
-            errorMessage: 'Invalid token!',
-          });
-        } else {
-          req.decodedToken = decodedToken;
-          next();
-        }
-      });
-    }
+  if (!token) {
+    res.status(401).json({
+      message: 'Access denied, you must be logged in to access this resource',
+    });
+  } else {
+    jwt.verify(token, jwtKey, (err, decodedToken) => {
+      if (err) {
+        res.status(401).json({
+          errorMessage: 'Invalid token!',
+        });
+      } else {
+        req.decodedToken = decodedToken;
+        next();
+      }
+    });
+  }
 }
 
 function encryptPassword(pwd) {

@@ -12,7 +12,7 @@ async function findByUsername(username) {
 async function findById(id) {
   return db('users')
     .where({ id })
-    .first()
+    .first();
 }
 
 async function find() {
