@@ -30,8 +30,24 @@ async function register(req, res) {
   }
 }
 
-function login(req, res) {
+async function login(req, res) {
   // implement user login
+  const { username, password } = req.body;
+  try {
+    const user = await Users.findByUsername(username);
+    if (user && comparePassword(password, user.password)) {
+      return res.status(200).json({
+        user,
+      });
+    }
+    return res.status(404).json({
+      errorMessage: 'Bad request',
+    });
+  } catch (error) {
+    res.status(500).json({
+      errorMessage: error,
+    });
+  }
 }
 
 module.exports = (server) => {
