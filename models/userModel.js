@@ -15,8 +15,13 @@ async function findById(id) {
     .first()
 }
 
+async function find() {
+  return db('users').select();
+}
+
 module.exports = {
   addUser,
   findByUsername,
   findById,
+  find,
 };

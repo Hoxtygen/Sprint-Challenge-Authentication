@@ -1,8 +1,10 @@
 const express = require('express');
 const axios = require('axios');
 const Users = require('../models/userModel.js');
-const { authenticate, encryptPassword, comparePassword } = require('../auth/authenticate');
-//const server = express.Router()
+const {
+  authenticate, encryptPassword, comparePassword, createToken,
+} = require('../auth/authenticate');
+
 
 async function register(req, res) {
   // implement user registration
@@ -15,8 +17,14 @@ async function register(req, res) {
     const [newUser] = await Users.addUser(newUserData);
     const user = await Users.findById(newUser);
     if (user) {
+      const tokenData = {
+        id: user.id,
+        username: user.username,
+      };
+      const token = createToken(tokenData);
       return res.status(201).json({
         message: 'User created successfully',
+        token,
         user,
       });
     }
@@ -36,7 +44,14 @@ async function login(req, res) {
   try {
     const user = await Users.findByUsername(username);
     if (user && comparePassword(password, user.password)) {
+      const tokenData = {
+        id: user.id,
+        username: user.username,
+      };
+      const token = createToken(tokenData);
       return res.status(200).json({
+        message: 'Login successful',
+        token,
         user,
       });
     }
@@ -44,18 +59,22 @@ async function login(req, res) {
       errorMessage: 'Bad request',
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       errorMessage: error,
     });
   }
 }
 
-module.exports = (server) => {
-  server.post('/api/register', register);
-
-  server.post('/api/login', login);
-  server.get('/api/jokes', authenticate, getJokes);
-};
+async function getAllUsers(req, res) {
+  try {
+    const allUsers = await Users.find();
+    return res.status(200).json(allUsers);    
+  } catch (error) {
+    return res.status(500).json({
+      errorMessage: error,
+    });
+  }
+}
 
 function getJokes(req, res) {
   const requestOptions = {
@@ -71,3 +90,12 @@ function getJokes(req, res) {
       res.status(500).json({ message: 'Error Fetching Jokes', error: err });
     });
 }
+
+module.exports = (server) => {
+  server.post('/api/register', register);
+  server.get('/api/users', authenticate, getAllUsers);
+  server.post('/api/login', login);
+  server.get('/api/jokes', authenticate, getJokes);
+};
+
+
