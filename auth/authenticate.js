@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const jwtKey =
   process.env.JWT_SECRET ||
   'add a .env file to root of project with the JWT_SECRET variable';
 
 // quickly see what this file exports
-module.exports = {
-  authenticate,
-};
+
 
 // implementation details
 function authenticate(req, res, next) {
@@ -27,3 +26,18 @@ function authenticate(req, res, next) {
     });
   }
 }
+
+function encryptPassword(pwd) {
+  return bcrypt.hashSync(pwd, bcrypt.genSaltSync(14));
+}
+
+function comparePassword(encryptedPwd, pwd) {
+  return bcrypt.compareSync(encryptedPwd, pwd);
+}
+
+
+module.exports = {
+  authenticate,
+  encryptPassword,
+  comparePassword,
+};
