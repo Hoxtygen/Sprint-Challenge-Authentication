@@ -5,14 +5,14 @@ async function addUser(userData) {
     .insert(userData);
 }
 
-async function findByUsername(email) {
-  return db('users').where({ email }).first();
+async function findByUsername(username) {
+  return db('users').where({ username }).first();
 }
 
 async function findById(id) {
   return db('users')
     .where({ id })
-    .first();
+    .first()
 }
 
 module.exports = {
