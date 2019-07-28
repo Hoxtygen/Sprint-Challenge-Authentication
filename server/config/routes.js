@@ -93,7 +93,7 @@ function getJokes(req, res) {
 
 module.exports = (server) => {
   server.post('/api/register', register);
-  server.get('/api/users', authenticate, getAllUsers);
+  server.get('/api/users', getAllUsers);
   server.post('/api/login', login);
   server.get('/api/jokes', authenticate, getJokes);
 };

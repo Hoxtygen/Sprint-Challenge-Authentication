@@ -7,18 +7,18 @@ beforeEach(async () => {
 
 describe('Users model', () => {
   describe('[POST] /register', () => {
-    it('should add a user to the database', async() => {
-      await Usermodel.addUser({username: 'michael', password: 'infiltrate'});
-      await Usermodel.addUser({username: 'alomo', password: 'infiltrate'});
-      await Usermodel.addUser({username: 'spade', password: 'infiltrate'});
-      await Usermodel.addUser({username: 'ilupeju', password: 'infiltrate'})
+    it('should add a user to the database', async () => {
+      await Usermodel.addUser({ username: 'michael', password: 'infiltrate' });
+      await Usermodel.addUser({ username: 'alomo', password: 'infiltrate' });
+      await Usermodel.addUser({ username: 'spade', password: 'infiltrate' });
+      await Usermodel.addUser({ username: 'ilupeju', password: 'infiltrate' });
       const newUser = await db('users');
       expect(newUser).toHaveLength(4);
     });
   });
 
   describe('[POST] /login', () => {
-    it('should login a user', async() => {
+    it('should login a user', async () => {
       await Usermodel.addUser({
         username: 'michael',
         password: 'infiltrate',
