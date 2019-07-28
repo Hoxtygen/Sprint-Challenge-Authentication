@@ -1,28 +1,51 @@
 import React from 'react'
 import styled from 'styled-components';
+import useSignupForm from '../helper/customHooks';
+import axios from 'axios'
 
-const Register = (props) => {
+const Register = () => {
+  const signUp = () => {
+    const reqBody = {
+      username: inputs.username,
+      password: inputs.password
+    }
+    axios.post('http://localhost:3300/api/register', reqBody)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  }
+  const { inputs, handleInputChange, handleSubmit } = useSignupForm({username: '', password: ''}, signUp)
   return (
     <main>
       <FormContainer>
         <FormHeader>
           <h2>New User Registration</h2>
         </FormHeader>
-        <form action="">
+        <form action="" onSubmit = {handleSubmit}>
           <SingleInput>
             <input
               type="text"
               placeholder = 'Enter your username'
+              onChange = { handleInputChange }
+              value = { inputs.username }
+              name = 'username'
              />
           </SingleInput>
           <SingleInput>
             <input
              type="password"
              placeholder = "Enter your password"
+             onChange = { handleInputChange }
+             value = { inputs.password }
+             name = 'password'
              />
           </SingleInput>
           <ButtonContainer>
-            <button>Submit</button>
+            <button type = "submit">Submit</button>
           </ButtonContainer>
         </form>
       </FormContainer>
