@@ -1,12 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Homepage from './components/Homepage';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello people!! I'm here to show you many jokes around here</h1>
-    </div>
+    <Router>
+      <div className="App">
+        <Route exact path = '/' component = {Homepage} />
+      </div>
+    </Router>
   );
 }
 
