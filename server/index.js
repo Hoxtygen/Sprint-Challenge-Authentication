@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 require('dotenv').config(); // load .env variables
 
 const server = require('./api/server.js');
