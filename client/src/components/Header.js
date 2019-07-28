@@ -25,12 +25,12 @@ const Header = props => {
 }
 
 const HeaderContainer = styled.div `
-  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   padding-right: 15px;
   padding-left: 15px;
-  background-color: hsl(150, 50%, 69%);
+  background: linear-gradient(to right, rgba(60, 64, 143, 0.95) 0%, rgba(91, 97, 207, 0.95) 100%);
+
 
   nav {
     display: flex;
@@ -53,7 +53,7 @@ const HeaderContainer = styled.div `
 
   a {
     text-decoration: none;
-    color: #222;
+    color: #ccc;
   }
 `
 
